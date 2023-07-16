@@ -19,6 +19,7 @@ def index():
             cleaned_emails = process_csv_file(filename)
             save_to_text_file(cleaned_emails)
             return send_file("email_data.txt", as_attachment=True)
+
         
     return render_template('index.html')
 
