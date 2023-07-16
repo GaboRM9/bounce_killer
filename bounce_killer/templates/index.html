@@ -11,14 +11,18 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />       
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+        font-family: Arial, sans-serif;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-image: url('https://cache.teia.rocks/ipfs/QmZe2VC8uA8EyqC3UnNE8D6YrK5kwBK5xddpcdad8EnzGZ') !important;
+        background-repeat: no-repeat;
+        background-size: cover;
         }
+
 
         form {
             display: flex;
@@ -75,14 +79,23 @@
         }
 
         .btn {
-            background-color: #333;
-            color: #fff;
+
+            background-color: #33333300;
+            color: #000000;
             border: none;
             border-radius: 4px;
             padding: 10px 20px;
             font-size: 30px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+
+        }
+
+        .material-symbols-outlined {
+
+            font-size: 150px;
+            color: #ffffff;         
+
 
         }
 
@@ -174,13 +187,56 @@
             cursor: pointer;
         }
 
+        .skull{
+            color:#fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .uploadtxt{
+
+            font-family: Arial, sans-serif;
+            margin: 0;
+            font-style: inherit;
+
+        }
         
  </style>
 </head>
 <body>
 <form action="/" method="POST" enctype="multipart/form-data">
     <div>
-        <h1 style="font-size: 150px;">bounce_killer</h1><br><br>
+        <div id="asciiArt" class="centered" style="font-size: 22px; font-weight: bold;">
+            <pre class="skull">
+                            ,--.
+                           {    }
+                           K,   }
+                          /  ~Y`
+                     ,   /   /
+                    {_'-K.__/
+                      `/-.__L._
+                      /  ' /`\_}
+                     /  ' /
+             ____   /  ' /
+      ,-'~~~~    ~~/  ' /_
+    ,'             ``~~~  ',
+   (                        Y
+  {                         I
+ {      -                    `,
+ |       ',                   )
+ |        |   ,..__      __. Y
+ |    .,_./  Y ' / ^Y   J   )|
+ \           |' /   |   |   ||
+  \          L_/    . _ (_,.'(
+   \,   ,      ^^""' / |      )
+     \_  \          /,L]     /
+       '-_~-,       ` `   ./`
+          `'{_            )  kill your bounce rate
+              ^^\..___,.--`     
+            </pre>
+          </div>
+          
+        <h1 style="font-size: 150px;" class="skull">bounce_killer</h1><br><br>
         <p class="centered" id="fileStatus"></p> <!-- Add an element to display the file status -->
         <div style="display: flex; justify-content: center; margin: 0 auto;">
             <div class="centered">
@@ -188,10 +244,13 @@
                 <button type="button" onclick="document.getElementById('files').click()" id="uploadbtn" class="btn">
                     <span class="material-symbols-outlined">upload</span>
                 </button>
+              
                 <button type="submit" id="cleanButton" class="btn hide">
                     <span class="material-symbols-outlined">download</span>
                 </button>
+                
             </div>
+            
         </div>
     </div>
 </form>
@@ -202,8 +261,8 @@
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <h2 class="centered">bounce_killer</h2>
-            <p>How to:</p>
+            <h2 class="centered">How to use bounce_killer</h2>
+
                 <!-- Steps -->
             <div class="step-container">
                 <div class="step">
@@ -213,7 +272,7 @@
                     <span>2:</span> Once the list is uploaded, click on "Process List".<br>
                 </div>
                 <div class="step">
-                    <span>3:</span> The list will be processed and automatically downloaded.<br>
+                    <span>3:</span> bounce_killer will kill any undeliverable mail from the list and automatically download a clean list.<br>
                 </div>
             </div>
 
@@ -239,12 +298,14 @@
             var fileStatus = document.getElementById('fileStatus');
             var cleanButton = document.getElementById('cleanButton');
     
-            if (fileInput.files.length > 0) {
+            if (fileInput.files.length > 0) { //if there is file 
                 var fileName = fileInput.files[0].name;
                 fileStatus.textContent = fileName;
                 cleanButton.classList.remove('hide');
                 uploadbtn.classList.add('hide');
-            } else {
+                uploadtxt.classList.add('hide');
+
+            } else { //if no file is uploaded yet
                 fileStatus.textContent = 'No file uploaded';
                 cleanButton.classList.add('hide');
             }
