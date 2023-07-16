@@ -24,7 +24,7 @@ def index():
 
 
 def process_csv_file(filename):
-    api_key = "077aa1dee9f34f1f9de247ade375fbb9"  # Replace with your actual API key
+    api_key = ""  # Replace with your actual API key
     url_template = "https://emailvalidation.abstractapi.com/v1/?api_key={api_key}&email={email}"
     cleaned_emails = []
 
