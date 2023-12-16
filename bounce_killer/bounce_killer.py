@@ -4,6 +4,8 @@ from flask import Flask, render_template, request, send_file
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
 import time
+import re
+import csv
 
 
 app = Flask(__name__)
@@ -17,14 +19,14 @@ def index():
             filename = file.filename
             file.save(filename)
             cleaned_emails = process_csv_file(filename)
-            save_to_text_file(cleaned_emails)
+            save_to_csv_file(cleaned_emails)
             return send_file("email_data.txt", as_attachment=True)
 
         
     return render_template('index.html')
 
-
-def process_csv_file(filename):
+#VALIDADOR POR API#
+#def process_csv_file(filename): #
     api_key = ""  # Replace with your actual API key
     url_template = "https://emailvalidation.abstractapi.com/v1/?api_key={api_key}&email={email}"
     cleaned_emails = []
@@ -67,11 +69,58 @@ def process_csv_file(filename):
     
     return cleaned_emails
 
+#VALIDADOR LOCAL#
+def is_valid_email(email):
+    # Basic email format validation using a regular expression
+    email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+    return re.match(email_regex, email) is not None
 
-def save_to_text_file(cleaned_emails):
+def process_csv_file(filename):
+    cleaned_emails = []
+
+    with open(filename, "r") as file:
+        reader = file.readlines()
+        for line in reader:
+            email = line.strip()
+
+            # Check if the email is valid based on basic format validation
+            if is_valid_email(email):
+                # Perform additional checks if needed
+                # For example, check if the domain exists, etc.
+
+                # Print or save the values as needed
+                print(f"Email: {email}")
+                print(f"Deliverability: VALID")
+                print("Quality Score: N/A")  # Since there is no API, quality score is not available
+                print()
+
+                # Add the email to the cleaned_emails list if it is valid
+                cleaned_emails.append(email)
+            else:
+                print(f"Email: {email}")
+                print(f"Deliverability: INVALID")
+                print("Quality Score: N/A")
+                print()
+
+    return cleaned_emails
+
+
+##def save_to_text_file(cleaned_emails):
     with open("email_data.txt", "w") as file:
         for email in cleaned_emails:
             file.write(f"{email},\n")
+
+#GENERA CSV#
+def save_to_csv_file(cleaned_emails, output_filename="email_data.csv"):
+    with open(output_filename, "w", newline="") as file:
+        writer = csv.writer(file)
+        writer.writerow(["Email", "Deliverability", "Quality Score"])  # Header row
+
+        for email in cleaned_emails:
+            # Assuming you have additional information like deliverability and quality score
+            # If not, adjust accordingly
+            writer.writerow([email, "DELIVERABLE", "N/A"])
+
 
 
 if __name__ == '__main__':
